@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="format-detection" content="address=no">
+    <title>todo</title>
+    <meta name="description" content="LOYAL">
+   
+    <style>
+        .tab-content {
+            display: none;
+        }
+        .active {
+            display: block;
+        }
+
+        .complited {
+            color: red;
+            text-decoration: line-through;
+        }
+
+        .uncomplited {
+            color: #000;
+            text-decoration: none;
+        }
+
+        .dospan {
+            font-size: 18px;
+            margin:0 15px 0 0;
+        }
+        
+        .del {
+            display: inline-block;
+        }
+    </style>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+
+  <div id="new-list">Новый список</div>
+
+  <div class="container">
+      <div class="todo-add">
+          <input type="text" id="doInput" placeholder="Что нужно сделать?">
+          <a id="doAdd" href="#">Добавить</a>
+      </div>
+  </div>
+
+  <div id="todo-list">
+    <ol id="todo-item"></ol>
+  </div>
+
+  <div id="remove-checked">Удалить выполненные</div>
+
+ 
+    <script src="test.js"></script>
+  </body>
+</html>
