@@ -35,6 +35,14 @@
         .del {
             display: inline-block;
         }
+
+        .edit {
+            display: inline-block;
+        }
+
+        #idVhod {
+            display: none; /* изначально скрыт */
+        }
     </style>
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -59,9 +67,13 @@
     <ol id="todo-item"></ol>
   </div>
 
+  <div id="check-todo">
+      <ol id="check-item"></ol>
+  </div>
+
   <div id="remove-checked">Удалить выполненные</div>
 
- 
+  <button onclick="onclickVhod()">открыть</button> <span id="idVhod">скрытый текст</span>
     <script src="test.js"></script>
   </body>
 </html>

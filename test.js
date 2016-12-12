@@ -1,12 +1,15 @@
 "use strict";
 
+// объявление переменных
 var doAdd = document.getElementById('doAdd');
 var doInput = document.getElementById("doInput");
 var todoList = document.getElementById("todo-list");
 var todoItem = document.getElementById("todo-item");
+var checkItem = document.getElementById("check-item");
 
 var remCheck = document.getElementById("remove-checked");
 
+// Обработчик при нажатии добавить
 doAdd.onclick = function(event) {
 	var target = event.target; // где был клик?
 	//if (target.tagName != 'A') return;
@@ -14,17 +17,16 @@ doAdd.onclick = function(event) {
 	doRun();
 };
 
-
+// Добавление новой задачи
 function doRun() {
 	if(doInput.value === "") return;
-	//console.log(doInput.value);
+
 	var newLi = document.createElement('li');
 	newLi.className = "li-item";
 	var doSpan = document.createElement('span');
 	doSpan.innerHTML = doInput.value;
 	doSpan.className = "dospan";
 	newLi.insertBefore(doSpan, newLi.children[1]);
-	//newLi.innerHTML = doSpan;
 
 	var box = document.createElement('input');
 	box.type = 'checkbox';
@@ -36,13 +38,17 @@ function doRun() {
 	del.innerHTML = "×";
 	newLi.insertBefore(del, newLi.children[1]);
 
+	var edit = document.createElement('i');
+	edit.className = "edit";
+	edit.innerHTML = "<>";
+	newLi.insertBefore(edit, newLi.children[1]);
+
 
 	todoItem.insertBefore(newLi, todoItem.children[1]);
 	doInput.value = "";
-	//todoList.innerHTML = doInput.value;
-	//checkedDo();
 }
 
+// Добавление задачи при нажатии на enter
 doInput.onkeydown = function(e) {
 	if (e.keyCode == 13) {
 		doRun();
@@ -50,31 +56,24 @@ doInput.onkeydown = function(e) {
 	}
 };
 
+var editItem, content, txt;
 
-/*
-(function () {
-	// код функции
-	//var check = document.querySelector('.checkbox');
-	todoItem.onclick = function(r) {
-
-		var parent = r.target.parentNode;
-		var child = r.target.parentNode;
-		console.log(parent);
-		parent.removeChild(child);
-	};
-
-}());
-*/
-
+// Дополнительные функции редактирование, удаление
 (function () {
 
 	todoItem.onclick = function(e) {
-		console.log(e.target);
 		if (e.target.checked) {
 			e.target.parentNode.className = "complited";
-		} else {
+			var compli = e.target.parentNode;
+			var checkItem = document.getElementById("check-item");
+			checkItem.insertBefore(compli, checkItem.children[1]);
+		} /*else {
 			e.target.parentNode.className = "uncomplited";
-		}
+
+			var uncompli = e.target.parentNode;
+			var uncheckItem = document.getElementById("todo-item");
+			uncheckItem.insertBefore(uncompli, uncheckItem.children[1]);
+		}*/
 
 		
 		if (e.target.tagName == 'DIV') {
@@ -84,17 +83,67 @@ doInput.onkeydown = function(e) {
 		}
 
 
+		if (e.target.tagName == 'I') {
+			editItem = e.target.previousElementSibling;
+			content = editItem.innerHTML;
+			editItem.innerHTML = '<textarea id="text-edit" class="edit-area"></textarea>';
+			txt = document.getElementById('text-edit');
+			txt.value = content;
+			editItem.insertAdjacentHTML("beforeEnd",
+				'<div class="edit-controls"><button id="edit-ok">OK</button><button id="edit-cancel">CANCEL</button></div>');
+
+			var ok = document.getElementById('edit-ok');
+			var cnl = document.getElementById('edit-cancel');
+			ok.onclick = function() {
+				edit_ok();
+
+			};
+			cnl.onclick = function() {
+				edit_cnl();
+			};
+
+			//console.log(editItem);
+		}
+
+
+	};
+
+	checkItem.onclick = function(eve) {
+		if (!eve.target.checked) {
+			eve.target.parentNode.className = "uncomplited";
+			var uncompli = eve.target.parentNode;
+			var uncheckItem = document.getElementById("todo-item");
+			uncheckItem.insertBefore(uncompli, uncheckItem.children[1]);
+		}
 	};
 
 }());
 
 
 
+// Редактирование - сохраняем
+function edit_ok() {
+	editItem.innerHTML = txt.value;
+	editItem.classList.remove('edit_td');
 
+}
+
+// Редактирование - отмена
+function edit_cnl() {
+	editItem.innerHTML = content;
+	editItem.classList.remove('edit_td');
+
+}
+
+
+
+
+
+
+
+// Удаление выполненных задач
 remCheck.onclick = function(o) {
 	var allItem = document.getElementsByClassName("checkbox");
-	console.log(allItem);
-
 	var itemArr = [];
 	for(var k=0; k<allItem.length; k++) {
 		if (allItem[k].checked == true) {
@@ -117,7 +166,7 @@ remCheck.onclick = function(o) {
 */
 };
 
-
+// Удаление всех задач, создание нового списка
 var newList = document.getElementById("new-list");
 newList.onclick = function() {
 	var liItem = document.getElementsByClassName("li-item");
@@ -180,3 +229,27 @@ function checkedDo() {
  };
 
  */
+
+
+// local storage чтобы после перезагрузки не пропадали!
+var idVhod = document.getElementById('idVhod');
+
+function onclickVhod() {
+	idVhod.style.display = (idVhod.style.display == 'inline') ? '' : 'inline';
+
+
+	var newLi = document.createElement('li');
+	newLi.className = "li-item";
+	newLi.innerHTML = "new task";
+
+	idVhod.insertBefore(newLi, idVhod.children[1]);
+
+
+
+
+	localStorage.setItem('hide', idVhod.style.display); // сохраняем значение в ключ hide
+}
+
+if(localStorage.getItem('hide') == 'inline') { // если значение ключа hide "inline"
+	document.getElementById('idVhod').style.display = 'inline';
+}
