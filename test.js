@@ -6,7 +6,6 @@ var doInput = document.getElementById("doInput");
 var todoList = document.getElementById("todo-list");
 var todoItem = document.getElementById("todo-item");
 var checkItem = document.getElementById("check-item");
-
 var remCheck = document.getElementById("remove-checked");
 
 // Обработчик при нажатии добавить
@@ -36,20 +35,20 @@ function doRun() {
 	newLi.insertBefore(box, newLi.children[1]);
 
 	var del = document.createElement('div');
-	del.className = "del";
-	del.innerHTML = "×";
+	del.classList = "del lnr lnr-cross";
+	del.innerHTML = "";
 	newLi.insertBefore(del, newLi.children[1]);
 
 	var edit = document.createElement('i');
-	edit.className = "edit";
-	edit.innerHTML = "<>";
+	edit.classList = "edit lnr lnr-pencil"
+	edit.innerHTML = "";
 	newLi.insertBefore(edit, newLi.children[1]);
 
 
 	todoItem.insertBefore(newLi, todoItem.children[1]);
 	doInput.value = "";
 
-
+	// Сохранение в локальное хранилище
 	var todos = document.getElementById("todo-item").innerHTML;
 	localStorage.setItem('todos', todos);
 }
@@ -108,7 +107,6 @@ var editItem, content, txt;
 				edit_cnl();
 			};
 
-			//console.log(editItem);
 		}
 
 
@@ -140,12 +138,6 @@ function edit_cnl() {
 	editItem.classList.remove('edit_td');
 
 }
-
-
-
-
-
-
 
 // Удаление выполненных задач
 remCheck.onclick = function(o) {
@@ -187,56 +179,6 @@ newList.onclick = function() {
 	}
  };
 
-/*newList.onclick = function() {
-	var liItem = document.getElementsByClassName("li-item");
-	for(var t=0; t<liItem.length; t++) {
-		var parentArr = liItem[t].parentNode.parentNode;
-		var childArr = liItem[t].parentNode;
-		parentArr.removeChild(childArr);
-
-		var olElem = document.createElement('ol');
-		olElem.id = "todo-item";
-		todoList.insertBefore(olElem, todoList.children[1]);
-
-	}
-};
-*/
-
-
-
-/*
-function checkedDo() {
-	var check = document.querySelector('.checkbox');
-
-	for(var i=0; i<check.length; i++) {
-		check[i].onclick = function(e) {
-			console.log('tet');
-			if (check[i].checked) {
-				this.parentNode.className = "complited";
-			} else {
-				this.parentNode.className = "uncomplited";
-			}
-		};
-	}
-}
-*/
-
-
-
-/* ==
-
- check.onclick = function(e) {
- console.log('tet');
- if (check.checked) {
- this.parentNode.className = "complited";
- } else {
- this.parentNode.className = "uncomplited";
- }
- };
-
- */
-
-
 // Проверка есть ли такая задача
 function hasItem(inputVal) {
 	console.log(inputVal);
@@ -252,20 +194,14 @@ function hasItem(inputVal) {
 
 }
 
-
-
-
 // local storage чтобы после перезагрузки не пропадали!
 // если в локальном хранилище уже есть данные, то отображаем их
 
 if(localStorage.getItem('todos')) {
-	console.log("local stor");
-	//$('#todo-item').html(localStorage.getItem('todos'));
 	var todos = document.getElementById("todo-item").innerHTML = localStorage.getItem('todos');
-
 }
 
-// Полная очиска localStorage
+// Полная очистка localStorage
 var clear = document.getElementById("clear");
 clear.onclick = function() {
 	window.localStorage.clear();

@@ -9,44 +9,10 @@
     <title>todo</title>
     <meta name="description" content="LOYAL">
 
+      <link rel="stylesheet" href="https://cdn.linearicons.com/free/1.0.0/icon-font.min.css">
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
-
-      <style>
-        .tab-content {
-            display: none;
-        }
-        .active {
-            display: block;
-        }
-
-        .complited {
-            color: red;
-            text-decoration: line-through;
-        }
-
-        .uncomplited {
-            color: #000;
-            text-decoration: none;
-        }
-
-        .dospan {
-            font-size: 18px;
-            margin:0 15px 0 0;
-        }
-        
-        .del {
-            display: inline-block;
-        }
-
-        .edit {
-            display: inline-block;
-        }
-
-        #idVhod {
-            display: none; /* изначально скрыт */
-        }
-    </style>
+      <link rel="stylesheet" href="src/css/style.css">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -59,13 +25,23 @@
 
   <div class="container">
       <div class="row">
-          <div class="col-md 12">
-              <div id="new-list">Новый список</div>
+          <div class="col-md-12">
+              <h1 class="bg-success main-text"> Список задач</h1>
           </div>
-          <div class="col -md-12">
+      </div>
+      <div class="row">
+          <div class="col-md-12">
+              <div class="btn btn-danger" id="new-list">Новый список</div>
+          </div>
+          <div class="col-md-12">
               <div class="todo-add">
-                  <input type="text" id="doInput" placeholder="Что нужно сделать?">
-                  <a id="doAdd" href="#">Добавить</a>
+
+                  <form class="form-inline add-form">
+                      <div class="form-group">
+                          <input type="text" class="form-control" id="doInput" placeholder="Добавить задачу?">
+                      </div>
+                      <a id="doAdd" class="btn btn-default" href="#">Добавить</a>
+                  </form>
               </div>
           </div>
           <div class="col-md-12">
@@ -79,20 +55,16 @@
               </div>
           </div>
           <div class="col-md-12">
-              <div id="remove-checked">Удалить выполненные</div>
+              <div class="btn btn-success" id="remove-checked">Удалить выполненные</div>
           </div>
           <div class="col-md-12">
-              <button id="clear">remove local</button>
+              <button class="btn btn-danger" id="clear">remove local</button>
           </div>
-
-
-
 
   </div>
   </div>
   <script src="jquery-1.11.3.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
   <script src="test.js"></script>
-
   </body>
 </html>
