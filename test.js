@@ -19,7 +19,9 @@ doAdd.onclick = function(event) {
 
 // Добавление новой задачи
 function doRun() {
+	var inputVal = doInput.value;
 	if(doInput.value === "") return;
+	if(hasItem(inputVal)) return;
 
 	var newLi = document.createElement('li');
 	newLi.className = "li-item";
@@ -46,6 +48,10 @@ function doRun() {
 
 	todoItem.insertBefore(newLi, todoItem.children[1]);
 	doInput.value = "";
+
+
+	var todos = document.getElementById("todo-item").innerHTML;
+	localStorage.setItem('todos', todos);
 }
 
 // Добавление задачи при нажатии на enter
@@ -231,25 +237,40 @@ function checkedDo() {
  */
 
 
+// Проверка есть ли такая задача
+function hasItem(inputVal) {
+	console.log(inputVal);
+	var allSpanItem = document.getElementsByClassName("dospan");
+	console.log(allSpanItem);
+	for(var t=0; t<allSpanItem.length; t++) {
+		if(allSpanItem[t].innerHTML == inputVal) {
+			return true;
+			console.log(allSpanItem[t]);
+			console.log(inputVal);
+		}
+	}
+
+}
+
+
+
+
 // local storage чтобы после перезагрузки не пропадали!
-var idVhod = document.getElementById('idVhod');
+// если в локальном хранилище уже есть данные, то отображаем их
 
-function onclickVhod() {
-	idVhod.style.display = (idVhod.style.display == 'inline') ? '' : 'inline';
+if(localStorage.getItem('todos')) {
+	console.log("local stor");
+	//$('#todo-item').html(localStorage.getItem('todos'));
+	var todos = document.getElementById("todo-item").innerHTML = localStorage.getItem('todos');
 
-
-	var newLi = document.createElement('li');
-	newLi.className = "li-item";
-	newLi.innerHTML = "new task";
-
-	idVhod.insertBefore(newLi, idVhod.children[1]);
-
-
-
-
-	localStorage.setItem('hide', idVhod.style.display); // сохраняем значение в ключ hide
 }
 
-if(localStorage.getItem('hide') == 'inline') { // если значение ключа hide "inline"
-	document.getElementById('idVhod').style.display = 'inline';
-}
+// Полная очиска localStorage
+var clear = document.getElementById("clear");
+clear.onclick = function() {
+	window.localStorage.clear();
+	location.reload();
+	return false;
+};
+
+

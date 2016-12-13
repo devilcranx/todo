@@ -8,8 +8,11 @@
     <meta name="format-detection" content="address=no">
     <title>todo</title>
     <meta name="description" content="LOYAL">
-   
-    <style>
+
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
+
+      <style>
         .tab-content {
             display: none;
         }
@@ -54,26 +57,42 @@
   </head>
   <body>
 
-  <div id="new-list">Новый список</div>
-
   <div class="container">
-      <div class="todo-add">
-          <input type="text" id="doInput" placeholder="Что нужно сделать?">
-          <a id="doAdd" href="#">Добавить</a>
-      </div>
+      <div class="row">
+          <div class="col-md 12">
+              <div id="new-list">Новый список</div>
+          </div>
+          <div class="col -md-12">
+              <div class="todo-add">
+                  <input type="text" id="doInput" placeholder="Что нужно сделать?">
+                  <a id="doAdd" href="#">Добавить</a>
+              </div>
+          </div>
+          <div class="col-md-12">
+              <div id="todo-list">
+                  <ol id="todo-item"></ol>
+              </div>
+          </div>
+          <div class="col-md-12">
+              <div id="check-todo">
+                  <ol id="check-item"></ol>
+              </div>
+          </div>
+          <div class="col-md-12">
+              <div id="remove-checked">Удалить выполненные</div>
+          </div>
+          <div class="col-md-12">
+              <button id="clear">remove local</button>
+          </div>
+
+
+
+
   </div>
-
-  <div id="todo-list">
-    <ol id="todo-item"></ol>
   </div>
+  <script src="jquery-1.11.3.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+  <script src="test.js"></script>
 
-  <div id="check-todo">
-      <ol id="check-item"></ol>
-  </div>
-
-  <div id="remove-checked">Удалить выполненные</div>
-
-  <button onclick="onclickVhod()">открыть</button> <span id="idVhod">скрытый текст</span>
-    <script src="test.js"></script>
   </body>
 </html>
