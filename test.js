@@ -48,6 +48,8 @@ function doRun() {
 	todoItem.insertBefore(newLi, todoItem.children[1]);
 	doInput.value = "";
 
+	deleteMessage();
+
 	// Сохранение в локальное хранилище
 	var todos = document.getElementById("todo-item").innerHTML;
 	localStorage.setItem('todos', todos);
@@ -60,6 +62,23 @@ doInput.onkeydown = function(e) {
 		return false;
 	}
 };
+
+
+function deleteMessage() {
+	var inform = document.getElementById("inform");
+	inform.innerHTML = "Задача добавлена!";
+	inform.style.color = 'green';
+	setTimeout(function () {
+		inform.innerHTML = "";
+	}, 2000)
+}
+
+function errorMessage() {
+	var inform = document.getElementById("inform");
+	inform.innerHTML = "Такая задача уже есть!";
+	inform.style.color = 'red';
+}
+
 
 var editItem, content, txt;
 
@@ -85,6 +104,11 @@ var editItem, content, txt;
 			var parent = e.target.parentNode.parentNode;
 			var child = e.target.parentNode;
 			parent.removeChild(child);
+
+			// Сохранение в локальное хранилище
+			var todos = document.getElementById("todo-item").innerHTML;
+			localStorage.setItem('todos', todos);
+
 		}
 
 
@@ -113,12 +137,48 @@ var editItem, content, txt;
 	};
 
 	checkItem.onclick = function(eve) {
-		if (!eve.target.checked) {
-			eve.target.parentNode.className = "uncomplited";
-			var uncompli = eve.target.parentNode;
-			var uncheckItem = document.getElementById("todo-item");
-			uncheckItem.insertBefore(uncompli, uncheckItem.children[1]);
+
+		if (eve.target.tagName == 'INPUT') {
+			if (!eve.target.checked) {
+				eve.target.parentNode.className = "uncomplited";
+				var uncompli = eve.target.parentNode;
+				var uncheckItem = document.getElementById("todo-item");
+				uncheckItem.insertBefore(uncompli, uncheckItem.children[1]);
+			}
 		}
+
+		if (eve.target.tagName == 'DIV') {
+			var parent = eve.target.parentNode.parentNode;
+			var child = eve.target.parentNode;
+			parent.removeChild(child);
+
+			// Сохранение в локальное хранилище
+			var todos = document.getElementById("todo-item").innerHTML;
+			localStorage.setItem('todos', todos);
+
+		}
+
+		if (eve.target.tagName == 'I') {
+			editItem = eve.target.previousElementSibling;
+			content = editItem.innerHTML;
+			editItem.innerHTML = '<textarea id="text-edit" class="edit-area"></textarea>';
+			txt = document.getElementById('text-edit');
+			txt.value = content;
+			editItem.insertAdjacentHTML("beforeEnd",
+				'<div class="edit-controls"><button id="edit-ok">OK</button><button id="edit-cancel">CANCEL</button></div>');
+
+			var ok = document.getElementById('edit-ok');
+			var cnl = document.getElementById('edit-cancel');
+			ok.onclick = function() {
+				edit_ok();
+
+			};
+			cnl.onclick = function() {
+				edit_cnl();
+			};
+
+		}
+
 	};
 
 }());
@@ -127,8 +187,12 @@ var editItem, content, txt;
 
 // Редактирование - сохраняем
 function edit_ok() {
+	//console.log(txt.value);
+	if(hasItem(txt.value)) return;
+
 	editItem.innerHTML = txt.value;
 	editItem.classList.remove('edit_td');
+
 
 }
 
@@ -152,6 +216,12 @@ remCheck.onclick = function(o) {
 		var parentArr = itemArr[t].parentNode.parentNode;
 		var childArr = itemArr[t].parentNode;
 		parentArr.removeChild(childArr);
+
+		window.localStorage.clear();
+		// Сохранение в локальное хранилище
+		var todos = document.getElementById("todo-item").innerHTML;
+		localStorage.setItem('todos', todos);
+
 	}
 
 /*	for(var k=0; k<allItem.length; k++) {
@@ -168,30 +238,38 @@ remCheck.onclick = function(o) {
 var newList = document.getElementById("new-list");
 newList.onclick = function() {
 	var liItem = document.getElementsByClassName("li-item");
+
+	// удаление выполненных попробовать classlist !!
+	var comp = document.getElementsByClassName("complited");
+	var uncomp = document.getElementsByClassName("uncomplited");
+
 	var itemArr = [];
 	for(var k=0; k<liItem.length; k++) {
 		itemArr.push(liItem[k]);
+		itemArr.push(comp[k]);
+		itemArr.push(uncomp[k]);
 	}
 	for(var t=0; t<itemArr.length; t++) {
 		var parentArr = itemArr[t].parentNode;
 		var childArr = itemArr[t];
 		parentArr.removeChild(childArr);
+		window.localStorage.clear();
 	}
  };
 
 // Проверка есть ли такая задача
 function hasItem(inputVal) {
-	console.log(inputVal);
+	//console.log(inputVal);
 	var allSpanItem = document.getElementsByClassName("dospan");
-	console.log(allSpanItem);
+	//console.log(allSpanItem);
 	for(var t=0; t<allSpanItem.length; t++) {
 		if(allSpanItem[t].innerHTML == inputVal) {
+			errorMessage();
 			return true;
-			console.log(allSpanItem[t]);
-			console.log(inputVal);
+			//console.log(allSpanItem[t]);
+			//console.log(inputVal);
 		}
 	}
-
 }
 
 // local storage чтобы после перезагрузки не пропадали!

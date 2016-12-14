@@ -57,3 +57,26 @@
     text-align: center;
     padding: 10px 0;
 }
+
+#inform {
+    margin: 0 0 0 15px;
+    display: inline-block;
+}
+
+#text-edit {
+    display: inline-block;
+    height: 32px;
+}
+
+.edit-controls {
+    display: inline-block;
+    position: relative;
+    top:-5px;
+    left:8px;
+}
+
+.edit-controls button {
+    width: 70px;
+    height: 20px;
+    font-size: 12px;
+}
