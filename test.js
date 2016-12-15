@@ -19,7 +19,10 @@ doAdd.onclick = function(event) {
 // Добавление новой задачи
 function doRun() {
 	var inputVal = doInput.value;
-	if(doInput.value === "") return;
+	if(doInput.value === "") {
+		errorMessage("Введите задачу");
+		return;
+	}
 	if(hasItem(inputVal)) return;
 
 	var newLi = document.createElement('li');
@@ -73,9 +76,9 @@ function deleteMessage() {
 	}, 2000)
 }
 
-function errorMessage() {
+function errorMessage(errorText) {
 	var inform = document.getElementById("inform");
-	inform.innerHTML = "Такая задача уже есть!";
+	inform.innerHTML = errorText;
 	inform.style.color = 'red';
 }
 
@@ -87,17 +90,12 @@ var editItem, content, txt;
 
 	todoItem.onclick = function(e) {
 		if (e.target.checked) {
-			e.target.parentNode.className = "complited";
+			//e.target.parentNode.className = "complited";
+			e.target.parentNode.classList = "complited li-item";
 			var compli = e.target.parentNode;
 			var checkItem = document.getElementById("check-item");
 			checkItem.insertBefore(compli, checkItem.children[1]);
-		} /*else {
-			e.target.parentNode.className = "uncomplited";
-
-			var uncompli = e.target.parentNode;
-			var uncheckItem = document.getElementById("todo-item");
-			uncheckItem.insertBefore(uncompli, uncheckItem.children[1]);
-		}*/
+		}
 
 		
 		if (e.target.tagName == 'DIV') {
@@ -113,6 +111,8 @@ var editItem, content, txt;
 
 
 		if (e.target.tagName == 'I') {
+
+			e.target.style.display = "none";
 			editItem = e.target.previousElementSibling;
 			content = editItem.innerHTML;
 			editItem.innerHTML = '<textarea id="text-edit" class="edit-area"></textarea>';
@@ -124,11 +124,14 @@ var editItem, content, txt;
 			var ok = document.getElementById('edit-ok');
 			var cnl = document.getElementById('edit-cancel');
 			ok.onclick = function() {
-				edit_ok();
+				var tar = e.target;
+				edit_ok(tar);
+
 
 			};
 			cnl.onclick = function() {
 				edit_cnl();
+				e.target.style.display = "inline-block";
 			};
 
 		}
@@ -140,7 +143,8 @@ var editItem, content, txt;
 
 		if (eve.target.tagName == 'INPUT') {
 			if (!eve.target.checked) {
-				eve.target.parentNode.className = "uncomplited";
+				//eve.target.parentNode.className = "uncomplited";
+				eve.target.parentNode.classList = "uncomplited li-item";
 				var uncompli = eve.target.parentNode;
 				var uncheckItem = document.getElementById("todo-item");
 				uncheckItem.insertBefore(uncompli, uncheckItem.children[1]);
@@ -170,11 +174,14 @@ var editItem, content, txt;
 			var ok = document.getElementById('edit-ok');
 			var cnl = document.getElementById('edit-cancel');
 			ok.onclick = function() {
-				edit_ok();
+				var tar = eve.target;
+				console.log("sdsd");
+				edit_ok(tar);
 
 			};
 			cnl.onclick = function() {
 				edit_cnl();
+				eve.target.style.display = "inline-block";
 			};
 
 		}
@@ -186,13 +193,13 @@ var editItem, content, txt;
 
 
 // Редактирование - сохраняем
-function edit_ok() {
-	//console.log(txt.value);
+function edit_ok(tar) {
+
 	if(hasItem(txt.value)) return;
 
 	editItem.innerHTML = txt.value;
 	editItem.classList.remove('edit_td');
-
+	tar.style.display = "inline-block";
 
 }
 
@@ -224,14 +231,6 @@ remCheck.onclick = function(o) {
 
 	}
 
-/*	for(var k=0; k<allItem.length; k++) {
-		if (allItem[k].checked) {
-			var par = allItem[k].parentNode.parentNode;
-			var chil = allItem[k].parentNode;
-			par.removeChild(chil);
-		}
-	}
-*/
 };
 
 // Удаление всех задач, создание нового списка
@@ -239,15 +238,9 @@ var newList = document.getElementById("new-list");
 newList.onclick = function() {
 	var liItem = document.getElementsByClassName("li-item");
 
-	// удаление выполненных попробовать classlist !!
-	var comp = document.getElementsByClassName("complited");
-	var uncomp = document.getElementsByClassName("uncomplited");
-
 	var itemArr = [];
 	for(var k=0; k<liItem.length; k++) {
 		itemArr.push(liItem[k]);
-		itemArr.push(comp[k]);
-		itemArr.push(uncomp[k]);
 	}
 	for(var t=0; t<itemArr.length; t++) {
 		var parentArr = itemArr[t].parentNode;
@@ -259,15 +252,11 @@ newList.onclick = function() {
 
 // Проверка есть ли такая задача
 function hasItem(inputVal) {
-	//console.log(inputVal);
 	var allSpanItem = document.getElementsByClassName("dospan");
-	//console.log(allSpanItem);
 	for(var t=0; t<allSpanItem.length; t++) {
 		if(allSpanItem[t].innerHTML == inputVal) {
-			errorMessage();
+			errorMessage("Такая задача уже есть!");
 			return true;
-			//console.log(allSpanItem[t]);
-			//console.log(inputVal);
 		}
 	}
 }

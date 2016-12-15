@@ -22,12 +22,14 @@
 
 .del {
     display: inline-block;
-    margin: 0 5px;;
+    margin: 0 5px;
+    cursor: pointer;
 }
 
 .edit {
     display: inline-block;
     margin: 0 5px;
+    cursor: pointer;
 }
 
 #idVhod {
@@ -51,6 +53,7 @@
 .checkbox {
     display: inline-block;
     margin: 0 5px !important;
+    cursor: pointer;
 }
 
 .main-text {
@@ -73,10 +76,21 @@
     position: relative;
     top:-5px;
     left:8px;
+    color: #fff;
 }
 
 .edit-controls button {
     width: 70px;
     height: 20px;
     font-size: 12px;
+}
+
+#edit-ok {
+    background: green;
+    border: 1px solid green;
+}
+
+#edit-cancel {
+    background: red;
+    border: 1px solid red;
 }
